@@ -7,55 +7,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f172a; --panel: #111827; --text: #e5e7eb; --muted: #9ca3af;
-      --accent: #22c55e; --danger: #ef4444; --border: #1f2937; --chip: #1f2937; --hover:#0d1526;
+      --bg: #0f172a; --panel: #0b1220; --text: #e5e7eb; --muted: #9ca3af;
+      --border: #1f2937; --accent: #22c55e; --danger:#ef4444; --chip:#172033;
+      --link:#60a5fa;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-    a { color: #60a5fa; text-decoration: none; } a:hover { text-decoration: underline; }
-    header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(8px); background: rgba(10,16,28,.7); border-bottom: 1px solid var(--border); }
-    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-    .title { font-weight: 700; font-size: 22px; }
-    .subtitle { color: var(--muted); font-size: 13px; }
-    .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    a { color:var(--link); text-decoration:none; } a:hover { text-decoration:underline; }
+    header { position: sticky; top:0; z-index:50; backdrop-filter: blur(8px); background: rgba(10,16,28,.75); border-bottom:1px solid var(--border); }
+    .container { max-width: 980px; margin: 0 auto; padding: 18px; }
+    .title { font-weight:700; font-size: 22px; }
+    .subtitle { color:var(--muted); font-size:13px; margin-top:4px; }
+    .controls { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
     .input, .select, .button {
       background: var(--panel); color: var(--text); border: 1px solid var(--border);
       padding: 10px 12px; border-radius: 10px; font-size: 14px;
     }
     .button { cursor: pointer; font-weight: 700; }
-    main { padding: 20px; }
-    .section { margin-bottom: 26px; }
-    .section h2 { margin: 0 0 10px; font-size: 18px; }
+    main { padding: 20px 0; }
+    .section { margin-bottom: 28px; }
+    .section h2 { margin:0 0 12px; font-size:18px; }
     .item {
-      display: grid; grid-template-columns: 1.2fr .6fr .6fr .8fr; gap: 10px; align-items: center;
-      padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: #0b1220;
-      margin-bottom: 10px;
+      display:grid; grid-template-columns: 140px 1.4fr .7fr .9fr .8fr; gap:12px; align-items:center;
+      padding:12px; border:1px solid var(--border); border-radius:12px; background:var(--panel);
+      margin-bottom:12px;
     }
-    .item.claimed { opacity: .7; border-color: #2b3b57; }
-    .name { font-weight: 700; }
-    .price { color: #bbf7d0; font-weight: 700; }
-    .badge { display: inline-block; padding: 6px 10px; border-radius: 999px; font-size: 12px; border: 1px solid var(--border); background: var(--chip); color: var(--muted); }
-    .claim { display: flex; gap: 8px; }
-    .danger { color: var(--danger); font-weight: 700; }
-    footer { padding: 24px; color: var(--muted); text-align: center; border-top: 1px solid var(--border); }
-    .note { font-size: 12px; color: var(--muted); margin-top: 8px; }
-    .row { margin: 10px 0; }
+    .thumb-wrap { width: 140px; }
+    .thumb { width:100%; height:100px; object-fit: cover; border-radius:8px; border:1px solid var(--border); background:#0a1222; }
+    .name { font-weight:700; font-size:15px; }
+    .host { color:var(--muted); font-size:12px; margin-top:4px; }
+    .price { color:#bbf7d0; font-weight:700; }
+    .badge { display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:var(--chip); color:var(--muted); }
+    .item.claimed { opacity:.75; border-color:#26364f; }
+    .actions { display:flex; gap:8px; align-items:center; }
+    .danger { color:var(--danger); font-weight:700; font-size:13px; }
+    footer { padding: 24px 18px; color: var(--muted); text-align:center; border-top:1px solid var(--border); }
+    @media (max-width: 760px) {
+      .item { grid-template-columns: 100px 1fr; grid-auto-rows: auto; }
+      .thumb-wrap { grid-column: 1 / 2; }
+      .meta, .price, .status, .actions { grid-column: 2 / 3; }
+      .thumb { height:80px; }
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="container">
       <div class="title">🎁 Corbin’s Wishlist</div>
-      <div class="subtitle">Family purchase tracker — claim items to avoid duplicates</div>
+      <div class="subtitle">Claim items to avoid duplicates. Claims sync to our shared Google Sheet.</div>
       <div class="controls">
-        <input id="search" class="input" placeholder="Search items..." />
+        <input id="search" class="input" placeholder="Search items or categories..." />
         <select id="sort" class="select">
           <option value="name-asc">Sort by name (A→Z)</option>
           <option value="name-desc">Sort by name (Z→A)</option>
           <option value="price-asc">Sort by price (low→high)</option>
           <option value="price-desc">Sort by price (high→low)</option>
         </select>
-        <input id="yourName" class="input" placeholder="Your name (for claims)" />
+        <input id="yourName" class="input" placeholder="Your name for claims" />
         <button id="refresh" class="button">Refresh claims</button>
       </div>
     </div>
@@ -67,7 +75,6 @@
 
   <footer>
     Built for family sharing. Prices are indicative; click through for current pricing and availability.
-    <div class="note">Claims are saved to a shared Google Sheet. If an item is already claimed, you’ll see who claimed it.</div>
   </footer>
 
   <!-- React + ReactDOM via CDN -->
@@ -75,51 +82,51 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
   <script>
-    // Replace with your Apps Script Web App URL
+    // Paste your Apps Script Web App URL here:
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbF9aJxkr42rid-zFAyO5VAdsjIHz6L5ecCvHNZLpG6BJVhuVYHtJkBCmWF_dzGA_GGw/exec";
 
-    // Data — flat list with category labels
+    // Items with imageUrl
     const items = [
       // 5.11 Tactical Gear
-      { category: "5.11 Tactical Gear", name: "5.11 CAMS 3.0 Rolling Bag (186L)", priceText: "~$425–$600", url: "https://www.511tactical.com/cams-3-0.html" },
-      { category: "5.11 Tactical Gear", name: "5.11 RUSH 100 Backpack (60L)", priceText: "~$208–$260", url: "https://www.511tactical.com/rush100-backpack.html" },
-      { category: "5.11 Tactical Gear", name: "5.11 RUSH LBD XRAY Duffel Bag (106L)", priceText: "~$150–$200", url: "https://www.511tactical.com/rush-lbd-xray.html" },
-      { category: "5.11 Tactical Gear", name: "5.11 A.T.A.C. 2.0 8\" Insulated Boot (Size 14)", priceText: "~$160–$190", url: "https://www.511tactical.com/a-t-a-c-2-0-8-insulated.html" },
+      { category: "5.11 Tactical Gear", name: "5.11 CAMS 3.0 Rolling Bag (186L)", priceText: "~$425–$600", url: "https://www.511tactical.com/cams-3-0.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/56466_019_1_1200x1200.jpg?v=1695925738" },
+      { category: "5.11 Tactical Gear", name: "5.11 RUSH 100 Backpack (60L)", priceText: "~$208–$260", url: "https://www.511tactical.com/rush100-backpack.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/56555_019_1_1200x1200.jpg?v=1695925740" },
+      { category: "5.11 Tactical Gear", name: "5.11 RUSH LBD XRAY Duffel Bag (106L)", priceText: "~$150–$200", url: "https://www.511tactical.com/rush-lbd-xray.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/56293_019_1_1200x1200.jpg?v=1695925719" },
+      { category: "5.11 Tactical Gear", name: "5.11 A.T.A.C. 2.0 8\" Insulated Boot (Size 14)", priceText: "~$160–$190", url: "https://www.511tactical.com/a-t-a-c-2-0-8-insulated.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/12373_019_1_1200x1200.jpg?v=1695925743" },
 
-      // Board Games
-      { category: "Board Games", name: "Talisman: The Magical Quest Game (5th Edition)", priceText: "$59.99", url: "https://www.target.com/p/talisman-board-game/-/A-91257252" },
+      // Board game
+      { category: "Board Games", name: "Talisman: The Magical Quest Game (5th Edition)", priceText: "$59.99", url: "https://www.target.com/p/talisman-board-game/-/A-91257252", imageUrl: "https://target.scene7.com/is/image/Target/GUEST_1c0d1f1f-8bb4-4c7a-8d2d-3c9f9e8d4e90" },
 
-      // Gift Cards
-      { category: "Gift Cards", name: "Any retailer (Amazon, Target, Best Buy, etc.)", priceText: "Choose amount", url: "https://www.amazon.com/giftcard/balance" },
+      // Gift cards (generic image)
+      { category: "Gift Cards", name: "Any retailer (Amazon, Target, Best Buy, etc.)", priceText: "Choose amount", url: "https://www.amazon.com/giftcard/balance", imageUrl: "https://m.media-amazon.com/images/G/01/gc/designs/livepreview/amazon_a_black_style_03._CB483131062_.png" },
 
       // Amazon / eBay Items
-      { category: "Amazon / eBay Items", name: "Nerf Rival Red Dot Sight", priceText: "~$19.99–$29.99", url: "https://www.ebay.com/itm/227000184057" },
-      { category: "Amazon / eBay Items", name: "Dark Brown PLA Filament (1.75mm, 1kg)", priceText: "~$16.99–$22.99", url: "https://www.amazon.com/dp/B09NXBHPK1" },
-      { category: "Amazon / eBay Items", name: "Silver PLA Filament (1.75mm, 1kg)", priceText: "~$15.99–$22.99", url: "https://www.amazon.com/dp/B09NXBHPK1" },
-      { category: "Amazon / eBay Items", name: "Amiibo Sylux (Metroid Prime 4: Beyond)", priceText: "~$29.99", url: "https://www.amazon.com/amiibo-Sylux-Metroid-Not-Machine-Specific/dp/B0FQY47SLH" },
-      { category: "Amazon / eBay Items", name: "Amiibo Samus (Metroid Prime 4: Beyond)", priceText: "~$29.99", url: "https://www.amazon.com/amiibo-Samus-Metroid-Not-Machine-Specific/dp/B0FQXH13RT" },
-      { category: "Amazon / eBay Items", name: "Amiibo Samus & Vi-O-La (Metroid Prime 4: Beyond)", priceText: "~$39.99", url: "https://www.amazon.com/amiibo-Samus-Vi-Not-Machine-Specific/dp/B0FQXSKLWQ" },
-      { category: "Amazon / eBay Items", name: "Amiibo Pyra + Mythra 2-Pack (Super Smash Bros.)", priceText: "~$44.00–$59.99", url: "https://www.amazon.com/amiibo-Mythra-2-Pack-Not-Machine-Specific/dp/B0C2XXMPLY" },
+      { category: "Amazon / eBay Items", name: "Nerf Rival Red Dot Sight", priceText: "~$19.99–$29.99", url: "https://www.ebay.com/itm/227000184057", imageUrl: "https://i.ebayimg.com/images/g/8jAAAOSw9kZk~JmK/s-l1200.jpg" },
+      { category: "Amazon / eBay Items", name: "Dark Brown PLA Filament (1.75mm, 1kg)", priceText: "~$16.99–$22.99", url: "https://www.amazon.com/dp/B09NXBHPK1", imageUrl: "https://m.media-amazon.com/images/I/71f2bqvC1IL._AC_SL1500_.jpg" },
+      { category: "Amazon / eBay Items", name: "Silver PLA Filament (1.75mm, 1kg)", priceText: "~$15.99–$22.99", url: "https://www.amazon.com/dp/B09NXBHPK1", imageUrl: "https://m.media-amazon.com/images/I/71f2bqvC1IL._AC_SL1500_.jpg" },
+      { category: "Amazon / eBay Items", name: "Amiibo Sylux (Metroid Prime 4: Beyond)", priceText: "~$29.99", url: "https://www.amazon.com/amiibo-Sylux-Metroid-Not-Machine-Specific/dp/B0FQY47SLH", imageUrl: "https://m.media-amazon.com/images/I/81mS8d2bV3L._AC_SL1500_.jpg" },
+      { category: "Amazon / eBay Items", name: "Amiibo Samus (Metroid Prime 4: Beyond)", priceText: "~$29.99", url: "https://www.amazon.com/amiibo-Samus-Metroid-Not-Machine-Specific/dp/B0FQXH13RT", imageUrl: "https://m.media-amazon.com/images/I/81gkCwtbVfL._AC_SL1500_.jpg" },
+      { category: "Amazon / eBay Items", name: "Amiibo Samus & Vi-O-La (Metroid Prime 4: Beyond)", priceText: "~$39.99", url: "https://www.amazon.com/amiibo-Samus-Vi-Not-Machine-Specific/dp/B0FQXSKLWQ", imageUrl: "https://m.media-amazon.com/images/I/71y9wD0C4oL._AC_SL1500_.jpg" },
+      { category: "Amazon / eBay Items", name: "Amiibo Pyra + Mythra 2-Pack (Super Smash Bros.)", priceText: "~$44.00–$59.99", url: "https://www.amazon.com/amiibo-Mythra-2-Pack-Not-Machine-Specific/dp/B0C2XXMPLY", imageUrl: "https://m.media-amazon.com/images/I/71GQH8HqDQL._AC_SL1500_.jpg" },
 
       // Video Game Stuffs
-      { category: "Video Game Stuffs", name: "Metroid Prime 4 (Nintendo Switch)", priceText: "$59.99 preorder", url: "https://www.amazon.com/dp/B071GPJ9TV" },
-      { category: "Video Game Stuffs", name: "FINAL FANTASY VII REMAKE INTERGRADE (Steam)", priceText: "~$19.99 (sale-dependent)", url: "https://store.steampowered.com/app/1462040/FINAL_FANTASY_VII_REMAKE_INTERGRADE/" },
-      { category: "Video Game Stuffs", name: "Every Dead Space game", priceText: "Varies by platform/edition", url: "https://store.steampowered.com/app/1693980/Dead_Space/" },
-      { category: "Video Game Stuffs", name: "Mortal Kombat XL (Xbox One)", priceText: "~$19.99", url: "https://www.bestbuy.com/product/mortal-kombat-komplete-edition-playstation-3/11136060" },
-      { category: "Video Game Stuffs", name: "Mortal Kombat 1 (Xbox Series X/S)", priceText: "~$49.99–$69.99", url: "https://www.bestbuy.com/site/mortal-kombat-1-xbox-series-x/6562064" },
-      { category: "Video Game Stuffs", name: "PS3 320GB Uncharted 3 Bundle (Pre-Owned)", priceText: "Varies", url: "https://www.walmart.com/ip/Pre-Owned-PS3-320GB-Uncharted-3-Bundle/2261210383" },
-      { category: "Video Game Stuffs", name: "PS3 Controllers (Black/Silver, RetroFam 2-Pack)", priceText: "Varies", url: "https://www.walmart.com/ip/RetroFam-2-Pack-Playstation-3-Controller-PS3-Controller-Wireless-for-PS3-Game-Console-Black-Silver/16999458925" },
+      { category: "Video Game Stuffs", name: "Metroid Prime 4 (Nintendo Switch)", priceText: "$59.99 preorder", url: "https://www.amazon.com/dp/B071GPJ9TV", imageUrl: "https://m.media-amazon.com/images/I/71z7k0kCkGL._AC_SL1500_.jpg" },
+      { category: "Video Game Stuffs", name: "FINAL FANTASY VII REMAKE INTERGRADE (Steam)", priceText: "~$19.99 (sale-dependent)", url: "https://store.steampowered.com/app/1462040/FINAL_FANTASY_VII_REMAKE_INTERGRADE/", imageUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1462040/header.jpg" },
+      { category: "Video Game Stuffs", name: "Every Dead Space game", priceText: "Varies by platform/edition", url: "https://store.steampowered.com/app/1693980/Dead_Space/", imageUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1693980/header.jpg" },
+      { category: "Video Game Stuffs", name: "Mortal Kombat XL (Xbox One)", priceText: "~$19.99", url: "https://www.bestbuy.com/product/mortal-kombat-komplete-edition-playstation-3/11136060", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/1113/11136060_sd.jpg" },
+      { category: "Video Game Stuffs", name: "Mortal Kombat 1 (Xbox Series X/S)", priceText: "~$49.99–$69.99", url: "https://www.bestbuy.com/site/mortal-kombat-1-xbox-series-x/6562064", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6562/6562064_sd.jpg" },
+      { category: "Video Game Stuffs", name: "PS3 320GB Uncharted 3 Bundle (Pre-Owned)", priceText: "Varies", url: "https://www.walmart.com/ip/Pre-Owned-PS3-320GB-Uncharted-3-Bundle/2261210383", imageUrl: "https://i5.walmartimages.com/seo/Pre-Owned-PS3-320GB-Uncharted-3-Bundle_7b8f56a9-5f1a-4a72-9f4a-3f6bb327d3a9_1.7b40f1b2ea1f6aefb45f622b2b2c6e19.jpeg" },
+      { category: "Video Game Stuffs", name: "PS3 Controllers (Black/Silver, RetroFam 2-Pack)", priceText: "Varies", url: "https://www.walmart.com/ip/RetroFam-2-Pack-Playstation-3-Controller-PS3-Controller-Wireless-for-PS3-Game-Console-Black-Silver/16999458925", imageUrl: "https://i5.walmartimages.com/seo/RetroFam-2-Pack-Playstation-3-Controller-PS3-Controller-Wireless-for-PS3-Game-Console-Black-Silver_6b0eeef1-b3ae-4e41-8c2f-0e5b1f1a5d1a.ef7a3b0a7b2d67f9a9f5a5b884f6a5b1.jpeg" },
 
       // Tech & Gaming Hardware
-      { category: "Tech & Gaming Hardware", name: "Alienware 16X Aurora (RTX 5060, 32GB, 1TB)", priceText: "~$1,299.99 (deal-dependent)", url: "https://www.bestbuy.com/product/alienware-16x-aurora-16-2-5k-gaming-laptop-intel-core-ultra-9-275hx-32gb-memory-nvidia-geforce-rtx-5060-1tb-storage-interstellar-indigo/6630638" },
-      { category: "Tech & Gaming Hardware", name: "Turtle Beach Stealth Ultra Wireless Controller (Xbox/PC)", priceText: "~$149.99", url: "https://www.bestbuy.com/product/turtle-beach-stealth-ultra-wireless-controller-with-charge-dock-30-hour-battery-designed-for-xbox-series-xs-windows-pc-android-black/6562064" },
+      { category: "Tech & Gaming Hardware", name: "Alienware 16X Aurora (RTX 5060, 32GB, 1TB)", priceText: "~$1,299.99 (deal-dependent)", url: "https://www.bestbuy.com/product/alienware-16x-aurora-16-2-5k-gaming-laptop-intel-core-ultra-9-275hx-32gb-memory-nvidia-geforce-rtx-5060-1tb-storage-interstellar-indigo/6630638", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6630/6630638_sd.jpg" },
+      { category: "Tech & Gaming Hardware", name: "Turtle Beach Stealth Ultra Wireless Controller (Xbox/PC)", priceText: "~$149.99", url: "https://www.bestbuy.com/product/turtle-beach-stealth-ultra-wireless-controller-with-charge-dock-30-hour-battery-designed-for-xbox-series-xs-windows-pc-android-black/6562064", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6562/6562064cv11d.jpg" },
 
       // Random Items
-      { category: "Random Items", name: "POROMETISTO Radiation ET01Pro Detector", priceText: "~$23.99", url: "https://www.amazon.com/POROMETISTO-Radiation-ET01Pro-Electromagnetic-Inspections/dp/B0DXVX4ML9" },
-      { category: "Random Items", name: "Circle Key Keyboard (Heyday, Jade, Target)", priceText: "~$17.99", url: "https://www.target.com/p/circle-key-keyboard-heyday-8482-jade/-/A-91257252" }
+      { category: "Random Items", name: "POROMETISTO Radiation ET01Pro Detector", priceText: "~$23.99", url: "https://www.amazon.com/POROMETISTO-Radiation-ET01Pro-Electromagnetic-Inspections/dp/B0DXVX4ML9", imageUrl: "https://m.media-amazon.com/images/I/71c0n6j9oUL._AC_SL1500_.jpg" },
+      { category: "Random Items", name: "Circle Key Keyboard (Heyday, Jade, Target)", priceText: "~$17.99", url: "https://www.target.com/p/circle-key-keyboard-heyday-8482-jade/-/A-91257252", imageUrl: "https://target.scene7.com/is/image/Target/GUEST_8c0d8e6d-1a12-4f65-9c53-9f9f67f8f0b4" }
     ];
 
-    // ---- Helpers ----
+    // Helpers
     const parsePrice = (text) => {
       const nums = (text || "").match(/\$([\d,.]+)/g);
       if (!nums) return null;
@@ -128,12 +135,12 @@
       return values.reduce((a, b) => a + b, 0) / values.length;
     };
 
-    // ---- API calls ----
+    // API calls
     async function loadClaims() {
       const res = await fetch(SCRIPT_URL);
-      const json = await res.json();
+      const json = await res.json(); // [{item, claimedBy, timestamp, notes}]
       const map = new Map();
-      (json.rows || []).forEach(r => {
+      (json || []).forEach(r => {
         if (r.item && r.claimedBy) map.set(r.item, { claimedBy: r.claimedBy, timestamp: r.timestamp, notes: r.notes });
       });
       return map;
@@ -145,10 +152,11 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ item: itemName, claimedBy, notes })
       });
-      return res.json();
+      // No need to parse; backend returns "OK"
+      return res.ok;
     }
 
-    // ---- React App ----
+    // React app
     const { useEffect, useMemo, useState } = React;
 
     function App() {
@@ -170,8 +178,7 @@
         elS.addEventListener("change", onS);
         elR.addEventListener("click", onR);
         elN.addEventListener("input", onN);
-        // initial load
-        onR();
+        onR(); // initial load
         return () => {
           elQ.removeEventListener("input", onQ);
           elS.removeEventListener("change", onS);
@@ -184,7 +191,7 @@
         const q = query.trim().toLowerCase();
         const list = items
           .filter(i => !q || i.name.toLowerCase().includes(q) || i.category.toLowerCase().includes(q))
-          .map(i => ({ ...i, sortPrice: parsePrice(i.priceText), claimed: claims.get(i.name) || null }));
+          .map(i => ({ ...i, sortPrice: parsePrice(i.priceText), claim: claims.get(i.name) || null }));
         const byName = (a, b) => a.name.localeCompare(b.name);
         const byPriceAsc = (a, b) => {
           if (a.sortPrice == null && b.sortPrice == null) return byName(a, b);
@@ -195,14 +202,14 @@
         const byPriceDesc = (a, b) => -byPriceAsc(a, b);
         list.sort(
           sort === "name-asc" ? byName :
-          sort === "name-desc" ? (a, b) => byName(b, a) :
+          sort === "name-desc" ? (a,b) => byName(b,a) :
           sort === "price-asc" ? byPriceAsc :
           byPriceDesc
         );
         return list;
       }, [query, sort, claims]);
 
-      const byCategory = useMemo(() => {
+      const sections = useMemo(() => {
         const map = new Map();
         for (const i of filtered) {
           if (!map.has(i.category)) map.set(i.category, []);
@@ -211,57 +218,48 @@
         return Array.from(map.entries()).map(([category, rows]) => ({ category, rows }));
       }, [filtered]);
 
-      const onClaim = async (item, notes) => {
+      const onClaim = async (item) => {
         const name = yourName.trim();
         if (!name) { alert("Enter your name in the header first."); return; }
-        const res = await claimItem(item.name, name, notes || "");
-        if (!res.ok && res.error === "Already claimed") {
-          alert(`Already claimed by ${res.claimedBy}.`);
-          setClaims(await loadClaims());
-          return;
-        }
-        if (!res.ok) {
-          alert("Claim failed. Try again in a moment.");
-          return;
-        }
+        const note = prompt("Optional note (size, color, etc.):") || "";
+        const ok = await claimItem(item.name, name, note);
+        if (!ok) { alert("Claim failed. Try again shortly."); return; }
         setClaims(await loadClaims());
       };
 
-      return (
-        React.createElement(React.Fragment, null,
-          byCategory.map(section =>
-            React.createElement("div", { key: section.category, className: "section" },
-              React.createElement("h2", null, section.category),
-              section.rows.length === 0
-                ? React.createElement("div", { className: "subtitle" }, "No items in this category.")
-                : section.rows.map(row => React.createElement(ItemRow, { key: row.name, row, onClaim }))
-            )
+      return React.createElement(React.Fragment, null,
+        sections.map(section =>
+          React.createElement("div", { key: section.category, className: "section" },
+            React.createElement("h2", null, section.category),
+            section.rows.map(row => React.createElement(ItemRow, { key: row.name, row, onClaim }))
           )
         )
       );
     }
 
     function ItemRow({ row, onClaim }) {
-      const claimedBy = row.claimed?.claimedBy;
-      const timestamp = row.claimed?.timestamp;
-      return (
-        React.createElement("div", { className: "item" + (claimedBy ? " claimed" : "") },
-          React.createElement("div", null,
-            React.createElement("div", { className: "name" }, row.name),
-            React.createElement("div", { className: "subtitle" }, new URL(row.url).hostname)
-          ),
-          React.createElement("div", { className: "price" }, row.priceText || "Check current price"),
-          React.createElement("div", null,
-            claimedBy
-              ? React.createElement("span", { className: "badge" }, `Claimed by ${claimedBy}`)
-              : React.createElement("span", { className: "badge" }, "Unclaimed")
-          ),
-          React.createElement("div", { className: "claim" },
-            React.createElement("a", { href: row.url, target: "_blank", rel: "noopener noreferrer", className: "button", style: { textAlign: "center" } }, "View"),
-            claimedBy
-              ? React.createElement("span", { className: "danger" }, "Already claimed")
-              : React.createElement("button", { className: "button", onClick: () => onClaim(row, prompt("Optional note (size, color, etc.):") || "") }, "Claim")
-          )
+      const claim = row.claim;
+      const claimedBy = claim?.claimedBy;
+      const timestamp = claim?.timestamp;
+      return React.createElement("div", { className: "item" + (claimedBy ? " claimed" : "") },
+        React.createElement("div", { className: "thumb-wrap" },
+          React.createElement("img", { className: "thumb", src: row.imageUrl, alt: row.name })
+        ),
+        React.createElement("div", { className: "meta" },
+          React.createElement("div", { className: "name" }, row.name),
+          React.createElement("div", { className: "host" }, new URL(row.url).hostname)
+        ),
+        React.createElement("div", { className: "price" }, row.priceText || "Check current price"),
+        React.createElement("div", { className: "status" },
+          claimedBy
+            ? React.createElement("span", { className: "badge" }, `Claimed by ${claimedBy}`)
+            : React.createElement("span", { className: "badge" }, "Unclaimed")
+        ),
+        React.createElement("div", { className: "actions" },
+          React.createElement("a", { href: row.url, target: "_blank", rel: "noopener noreferrer", className: "button" }, "View"),
+          claimedBy
+            ? React.createElement("span", { className: "danger" }, "Already claimed")
+            : React.createElement("button", { className: "button", onClick: () => onClaim(row) }, "Claim")
         )
       );
     }
