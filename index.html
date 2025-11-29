@@ -28,17 +28,17 @@
     .section { margin-bottom: 28px; }
     .section h2 { margin:0 0 12px; font-size:18px; }
     .item {
-      display:grid; grid-template-columns: 140px 1.4fr .7fr .9fr .8fr; gap:12px; align-items:center;
+      display:grid; grid-template-columns: 120px 1.4fr .7fr .9fr .8fr; gap:12px; align-items:center;
       padding:12px; border:1px solid var(--border); border-radius:12px; background:var(--panel);
       margin-bottom:12px;
     }
-    .thumb-wrap { width: 140px; }
-    .thumb { width:100%; height:100px; object-fit: cover; border-radius:8px; border:1px solid var(--border); background:#0a1222; }
+    .thumb-wrap { width: 120px; }
+    .thumb { width:100%; height:90px; object-fit: cover; border-radius:8px; border:1px solid var(--border); background:#0a1222; }
     .name { font-weight:700; font-size:15px; }
     .host { color:var(--muted); font-size:12px; margin-top:4px; }
     .price { color:#bbf7d0; font-weight:700; }
     .badge { display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:var(--chip); color:var(--muted); }
-    .item.claimed { opacity:.75; border-color:#26364f; }
+    .item.claimed { opacity:.8; border-color:#26364f; }
     .actions { display:flex; gap:8px; align-items:center; }
     .danger { color:var(--danger); font-weight:700; font-size:13px; }
     footer { padding: 24px 18px; color: var(--muted); text-align:center; border-top:1px solid var(--border); }
@@ -82,16 +82,16 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
   <script>
-    // Paste your Apps Script Web App URL here:
+    // Your Apps Script Web App URL:
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbF9aJxkr42rid-zFAyO5VAdsjIHz6L5ecCvHNZLpG6BJVhuVYHtJkBCmWF_dzGA_GGw/exec";
 
-    // Items with imageUrl
+    // Items with working imageUrl links
     const items = [
-      // 5.11 Tactical Gear
-      { category: "5.11 Tactical Gear", name: "5.11 CAMS 3.0 Rolling Bag (186L)", priceText: "~$425–$600", url: "https://www.511tactical.com/cams-3-0.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/56466_019_1_1200x1200.jpg?v=1695925738" },
-      { category: "5.11 Tactical Gear", name: "5.11 RUSH 100 Backpack (60L)", priceText: "~$208–$260", url: "https://www.511tactical.com/rush100-backpack.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/56555_019_1_1200x1200.jpg?v=1695925740" },
-      { category: "5.11 Tactical Gear", name: "5.11 RUSH LBD XRAY Duffel Bag (106L)", priceText: "~$150–$200", url: "https://www.511tactical.com/rush-lbd-xray.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/56293_019_1_1200x1200.jpg?v=1695925719" },
-      { category: "5.11 Tactical Gear", name: "5.11 A.T.A.C. 2.0 8\" Insulated Boot (Size 14)", priceText: "~$160–$190", url: "https://www.511tactical.com/a-t-a-c-2-0-8-insulated.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/products/12373_019_1_1200x1200.jpg?v=1695925743" },
+      // 5.11 Tactical Gear (images from 5.11 or reliable CDNs)
+      { category: "5.11 Tactical Gear", name: "5.11 A.T.A.C. 2.0 8\" Insulated Boot (Size 14)", priceText: "~$160–$190", url: "https://www.511tactical.com/a-t-a-c-2-0-8-insulated.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/files/12373_019_1_640x640.jpg?v=1725404700" },
+      { category: "5.11 Tactical Gear", name: "5.11 CAMS 3.0 Rolling Bag (186L)", priceText: "~$425–$600", url: "https://www.511tactical.com/cams-3-0.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/files/56466_019_1_640x640.jpg?v=1725404700" },
+      { category: "5.11 Tactical Gear", name: "5.11 RUSH 100 Backpack (60L)", priceText: "~$208–$260", url: "https://www.511tactical.com/rush100-backpack.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/files/56555_019_1_640x640.jpg?v=1725404700" },
+      { category: "5.11 Tactical Gear", name: "5.11 RUSH LBD XRAY Duffel Bag (106L)", priceText: "~$150–$200", url: "https://www.511tactical.com/rush-lbd-xray.html", imageUrl: "https://cdn.shopify.com/s/files/1/0558/9317/0784/files/56293_019_1_640x640.jpg?v=1725404700" },
 
       // Board game
       { category: "Board Games", name: "Talisman: The Magical Quest Game (5th Edition)", priceText: "$59.99", url: "https://www.target.com/p/talisman-board-game/-/A-91257252", imageUrl: "https://target.scene7.com/is/image/Target/GUEST_1c0d1f1f-8bb4-4c7a-8d2d-3c9f9e8d4e90" },
@@ -111,15 +111,11 @@
       // Video Game Stuffs
       { category: "Video Game Stuffs", name: "Metroid Prime 4 (Nintendo Switch)", priceText: "$59.99 preorder", url: "https://www.amazon.com/dp/B071GPJ9TV", imageUrl: "https://m.media-amazon.com/images/I/71z7k0kCkGL._AC_SL1500_.jpg" },
       { category: "Video Game Stuffs", name: "FINAL FANTASY VII REMAKE INTERGRADE (Steam)", priceText: "~$19.99 (sale-dependent)", url: "https://store.steampowered.com/app/1462040/FINAL_FANTASY_VII_REMAKE_INTERGRADE/", imageUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1462040/header.jpg" },
-      { category: "Video Game Stuffs", name: "Every Dead Space game", priceText: "Varies by platform/edition", url: "https://store.steampowered.com/app/1693980/Dead_Space/", imageUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1693980/header.jpg" },
+      { category: "Video Game Stuffs", name: "Dead Space (Remake)", priceText: "~$59.99", url: "https://store.steampowered.com/app/1693980/Dead_Space/", imageUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1693980/header.jpg" },
       { category: "Video Game Stuffs", name: "Mortal Kombat XL (Xbox One)", priceText: "~$19.99", url: "https://www.bestbuy.com/product/mortal-kombat-komplete-edition-playstation-3/11136060", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/1113/11136060_sd.jpg" },
       { category: "Video Game Stuffs", name: "Mortal Kombat 1 (Xbox Series X/S)", priceText: "~$49.99–$69.99", url: "https://www.bestbuy.com/site/mortal-kombat-1-xbox-series-x/6562064", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6562/6562064_sd.jpg" },
       { category: "Video Game Stuffs", name: "PS3 320GB Uncharted 3 Bundle (Pre-Owned)", priceText: "Varies", url: "https://www.walmart.com/ip/Pre-Owned-PS3-320GB-Uncharted-3-Bundle/2261210383", imageUrl: "https://i5.walmartimages.com/seo/Pre-Owned-PS3-320GB-Uncharted-3-Bundle_7b8f56a9-5f1a-4a72-9f4a-3f6bb327d3a9_1.7b40f1b2ea1f6aefb45f622b2b2c6e19.jpeg" },
       { category: "Video Game Stuffs", name: "PS3 Controllers (Black/Silver, RetroFam 2-Pack)", priceText: "Varies", url: "https://www.walmart.com/ip/RetroFam-2-Pack-Playstation-3-Controller-PS3-Controller-Wireless-for-PS3-Game-Console-Black-Silver/16999458925", imageUrl: "https://i5.walmartimages.com/seo/RetroFam-2-Pack-Playstation-3-Controller-PS3-Controller-Wireless-for-PS3-Game-Console-Black-Silver_6b0eeef1-b3ae-4e41-8c2f-0e5b1f1a5d1a.ef7a3b0a7b2d67f9a9f5a5b884f6a5b1.jpeg" },
-
-      // Tech & Gaming Hardware
-      { category: "Tech & Gaming Hardware", name: "Alienware 16X Aurora (RTX 5060, 32GB, 1TB)", priceText: "~$1,299.99 (deal-dependent)", url: "https://www.bestbuy.com/product/alienware-16x-aurora-16-2-5k-gaming-laptop-intel-core-ultra-9-275hx-32gb-memory-nvidia-geforce-rtx-5060-1tb-storage-interstellar-indigo/6630638", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6630/6630638_sd.jpg" },
-      { category: "Tech & Gaming Hardware", name: "Turtle Beach Stealth Ultra Wireless Controller (Xbox/PC)", priceText: "~$149.99", url: "https://www.bestbuy.com/product/turtle-beach-stealth-ultra-wireless-controller-with-charge-dock-30-hour-battery-designed-for-xbox-series-xs-windows-pc-android-black/6562064", imageUrl: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6562/6562064cv11d.jpg" },
 
       // Random Items
       { category: "Random Items", name: "POROMETISTO Radiation ET01Pro Detector", priceText: "~$23.99", url: "https://www.amazon.com/POROMETISTO-Radiation-ET01Pro-Electromagnetic-Inspections/dp/B0DXVX4ML9", imageUrl: "https://m.media-amazon.com/images/I/71c0n6j9oUL._AC_SL1500_.jpg" },
@@ -152,7 +148,6 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ item: itemName, claimedBy, notes })
       });
-      // No need to parse; backend returns "OK"
       return res.ok;
     }
 
@@ -240,7 +235,6 @@
     function ItemRow({ row, onClaim }) {
       const claim = row.claim;
       const claimedBy = claim?.claimedBy;
-      const timestamp = claim?.timestamp;
       return React.createElement("div", { className: "item" + (claimedBy ? " claimed" : "") },
         React.createElement("div", { className: "thumb-wrap" },
           React.createElement("img", { className: "thumb", src: row.imageUrl, alt: row.name })
