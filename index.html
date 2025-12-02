@@ -90,19 +90,26 @@ function App() {
         React.createElement("button",{type:"submit",className:"add"},"Add Item")
       ),
       items.map(item =>
-        React.createElement("div",{className:"item",key:item.name},
-          React.createElement("div",null,
-            React.createElement("strong",null,item.name),
-            " — ", item.category, " — ", item.priceText,
-            item.claimedBy ? ` (Claimed by ${item.claimedBy})` : ""
-          ),
-          React.createElement("div",{className:"actions"},
-            React.createElement("a",{href:item.url,target:"_blank"},"View"),
-            React.createElement("button",{className:"claim",onClick:()=>claimItem(item.name)},"Claim"),
-            React.createElement("button",{className:"delete",onClick:()=>deleteItem(item.name)},"Delete")
-          )
-        )
-      )
+  React.createElement("div",{className:"item",key:item.name},
+    React.createElement("div",null,
+      React.createElement("strong",null,item.name),
+      " — ", item.category, " — ", item.priceText,
+      item.claimedBy ? ` (Claimed by ${item.claimedBy})` : "",
+      item.imageUrl ? React.createElement("div",null,
+        React.createElement("img",{
+          src:item.imageUrl,
+          alt:item.name,
+          style:{maxWidth:"150px",marginTop:"8px",borderRadius:"6px"}
+        })
+      ) : null
+    ),
+    React.createElement("div",{className:"actions"},
+      React.createElement("a",{href:item.url,target:"_blank"},"View"),
+      React.createElement("button",{className:"claim",onClick:()=>claimItem(item.name)},"Claim"),
+      React.createElement("button",{className:"delete",onClick:()=>deleteItem(item.name)},"Delete")
+    )
+  )
+)
     )
   );
 }
